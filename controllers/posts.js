@@ -1,5 +1,4 @@
 const prisma = require("../lib/prisma.ts");
-const bcrypt = require("bcryptjs");
 const { body, validationResult, matchedData } = require("express-validator");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
