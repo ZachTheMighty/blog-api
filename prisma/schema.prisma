@@ -26,9 +26,10 @@ model Post {
 
 model User {
    id Int @id @default(autoincrement())
-   email String @unique
    firstName String @map("first_name")
    lastName String @map("last_name")
+   email String @unique
+   password String
    isAuthor Boolean @map("is_author")
    posts Post[]
    comments Comment[]
