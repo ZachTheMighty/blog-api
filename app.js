@@ -1,10 +1,12 @@
 const express = require("express");
 const app = express();
 const signUpRoute = require("./routes/sign_up.js");
+const logInRoute = require("./routes/log_in.js");
 
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/users", signUpRoute);
+app.use("/tokens", logInRoute);
 app.use("/", (req, res) =>
   res.json({
     name: "Blog API",
