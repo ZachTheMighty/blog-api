@@ -1,8 +1,12 @@
 const prisma = require("../lib/prisma.ts");
 const { body, validationResult, matchedData } = require("express-validator");
+const bcrypt = require("bcryptjs");
 
 const emptyError = "field can't be empty.";
 const alphaError = "can only contain alphabet characters.";
+const strongPasswordError =
+  "must be between 8 and 24  characters, and must contain at least one number and one symbol";
+const maxLengthError = "Password must be between 8 and 24 charactesr";
 
 const validateUser = [
   body("firstName")
@@ -23,6 +27,36 @@ const validateUser = [
     .withMessage(`Email ${emptyError}`)
     .isEmail()
     .withMessage(`Email must be in the format a@b.domain`),
+  body("password")
+    .trim()
+    .notEmpty()
+    .withMessage(`Password ${emptyError}`)
+    .isStrongPassword({
+      minLength: 8,
+      minLowercase: 1,
+      minUppercase: 1,
+      minNumbers: 1,
+      minSymbols: 1,
+    })
+    .withMessage(`Password ${strongPasswordError}`)
+    .isLength({ max: 24 })
+    .withMessage(maxLengthError),
+  body("confirmPassword")
+    .trim()
+    .notEmpty()
+    .withMessage(`Confirm password ${emptyError}`)
+    .isStrongPassword({
+      minLength: 8,
+      minLowercase: 1,
+      minUppercase: 1,
+      minNumbers: 1,
+      minSymbols: 1,
+    })
+    .withMessage(`Confrim password ${strongPasswordError}`)
+    .isLength({ max: 24 })
+    .withMessage(maxLengthError)
+    .custom((value, { req }) => value === req.body.password)
+    .withMessage("The two passwords don't match"),
 ];
 
 const createUser = [
@@ -37,6 +71,7 @@ const createUser = [
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
+        password: await bcrypt.hash(matchedData(req).password, 10),
         isAuthor: req.body.isAuthor === true,
       },
     });
