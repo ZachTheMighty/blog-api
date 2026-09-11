@@ -41,6 +41,7 @@ model Comment {
   userId Int @unique @map("user_id")
   post Post @relation(fields: [postId], references: [id])
   postId Int @unique @map("post_id")
+  body String
   createdAt DateTime @default(now()) @map("created_at")
   @@map("comments")
 }
