@@ -2,6 +2,7 @@ const prisma = require("../lib/prisma.ts");
 const { body, validationResult, matchedData } = require("express-validator");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+const verifyToken = require("../verify_token.js");
 
 const validatePost = [
   body("title")
@@ -19,17 +20,7 @@ const validatePost = [
 
 const createPost = [
   validatePost,
-
-  (req, res, next) => {
-    if (!req.headers["authorization"])
-      return res
-        .status(403)
-        .json({ error: "You need to log in in order to create posts" });
-
-    req.token = req.headers["authorization"].split(" ")[1];
-    next();
-  },
-
+  verifyToken(),
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty())
