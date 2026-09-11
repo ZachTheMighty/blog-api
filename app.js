@@ -1,9 +1,17 @@
-require("dotenv").config();
 const app = require("express")();
-const route = require("./routes.js");
+const signUpRoute = require("./routes/sign_up.js");
 
-app.use("/", route);
+app.use("/", (req, res) =>
+  res.json({
+    name: "Blog API",
+    version: "1.0.0",
+    description: "API for managing posts in a blog applciation",
+  }),
+);
 
+app.use("/users", signUpRoute);
+
+require("dotenv").config();
 const port = process.env.PORT;
 
 app.listen(port, (error) => {

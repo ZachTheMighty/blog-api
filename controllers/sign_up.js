@@ -1,11 +1,4 @@
-const prisma = require("./lib/prisma.ts");
-
-const rootGet = (req, res) =>
-  res.json({
-    name: "Blog API",
-    version: "1.0.0",
-    description: "API for managing posts in a blog applciation",
-  });
+const prisma = require("../lib/prisma.ts");
 
 const createUser = async (req, res) => {
   await prisma.user.create({
@@ -20,6 +13,5 @@ const createUser = async (req, res) => {
 };
 
 module.exports = {
-  rootGet,
   createUser,
 };
