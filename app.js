@@ -1,6 +1,10 @@
-const app = require("express")();
+const express = require("express");
+const app = express();
 const signUpRoute = require("./routes/sign_up.js");
 
+app.use(express.urlencoded({ extended: false }));
+
+app.use("/users", signUpRoute);
 app.use("/", (req, res) =>
   res.json({
     name: "Blog API",
@@ -8,8 +12,6 @@ app.use("/", (req, res) =>
     description: "API for managing posts in a blog applciation",
   }),
 );
-
-app.use("/users", signUpRoute);
 
 require("dotenv").config();
 const port = process.env.PORT;
