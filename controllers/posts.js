@@ -50,6 +50,14 @@ const createPost = [
   },
 ];
 
+const getAllPosts = async (req, res) => {
+  const posts = await prisma.post.findMany();
+  const result = {};
+  for (let i = 0; i < posts.length; i++) result[i] = posts[i];
+  res.json(result);
+};
+
 module.exports = {
   createPost,
+  getAllPosts,
 };
