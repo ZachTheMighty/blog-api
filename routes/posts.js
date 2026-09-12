@@ -1,8 +1,12 @@
 const route = require("express").Router();
-const controller = require("../controllers/posts.js");
+const postsController = require("../controllers/posts.js");
+const commentsController = require("../controllers/comments.js");
 
-route.post("/", controller.createPost);
-route.get("/", controller.getAllPosts);
-route.get("/:id", controller.getPostById);
+route.post("/", postsController.createPost);
+
+route.get("/", postsController.getAllPosts);
+route.get("/:id", postsController.getPostById);
+
+route.post("/:id/comments", commentsController.createComment);
 
 module.exports = route;
