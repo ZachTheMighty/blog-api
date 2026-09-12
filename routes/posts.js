@@ -8,5 +8,6 @@ route.get("/:id", postsController.getPostById);
 
 route.post("/:id/comments", commentsController.createComment);
 route.get("/:id/comments", commentsController.getAllComments);
+route.get("/:id/comments/:commentId", commentsController.getCommentById);
 
 module.exports = route;

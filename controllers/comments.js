@@ -55,7 +55,22 @@ const getAllComments = [
   },
 ];
 
+const getCommentById = [
+  checkPostExists,
+  async (req, res) => {
+    const comment = await prisma.comment.findUnique({
+      where: {
+        id: +req.params.commentId,
+        postId: +req.params.id,
+      },
+    });
+    if (!comment) res.status(404).json({ error: "Comment doesn't exist" });
+    res.json(comment);
+  },
+];
+
 module.exports = {
   createComment,
   getAllComments,
+  getCommentById,
 };
