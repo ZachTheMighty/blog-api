@@ -3,6 +3,7 @@ const { body, validationResult, matchedData } = require("express-validator");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const verifyToken = require("../middlewares/verify_token.js");
+const checkPostExists = require("../middlewares/check_post_exists.js");
 
 const createComment = [
   verifyToken,
@@ -39,14 +40,7 @@ const createComment = [
 ];
 
 const getAllComments = [
-  async (req, res, next) => {
-    const post = await prisma.post.findUnique({
-      where: { id: +req.params.id },
-    });
-    if (!post) return res.status(404).json({ error: "Post doesn't exist" });
-    next();
-  },
-
+  checkPostExists,
   async (req, res) => {
     const comments = await prisma.comment.findMany({
       where: { postId: +req.params.id },
