@@ -19,8 +19,8 @@ const validatePost = [
 ];
 
 const createPost = [
-  validatePost,
   verifyToken,
+  validatePost,
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty())
