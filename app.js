@@ -16,7 +16,9 @@ app.get("/", (req, res) =>
     description: "API for managing posts in a blog applciation",
   }),
 );
-app.use((req, res) => res.status(404).json({ error: "Page doesn't exist" }));
+app.use((req, res) =>
+  res.status(404).json({ error: "Endpoint doesn't exist" }),
+);
 
 require("dotenv").config();
 const port = process.env.PORT;
