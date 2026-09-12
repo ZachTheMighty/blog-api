@@ -2,7 +2,7 @@ const prisma = require("../lib/prisma.ts");
 const { body, validationResult, matchedData } = require("express-validator");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const verifyToken = require("../middlewares/verify_token.js");
+const verifyToken = require("../verify_token.js");
 
 const createComment = [
   verifyToken,
