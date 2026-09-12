@@ -38,6 +38,23 @@ const createComment = [
   },
 ];
 
+const getAllComments = async (req, res) => {
+  const post = await prisma.post.findUnique({
+    where: { id: +req.params.id },
+  });
+  if (!post) return res.status(404).json({ error: "Post doesn't exist" });
+
+  const comments = await prisma.comment.findMany({
+    where: { postId: +req.params.id },
+  });
+  if (comments.length === 0)
+    return res.json({ message: "This post doesn't have any comments" });
+  const result = {};
+  for (let i = 0; i < comments.length; i++) result[i] = comments[i];
+  res.json(result);
+};
+
 module.exports = {
   createComment,
+  getAllComments,
 };
