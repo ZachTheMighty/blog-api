@@ -4,7 +4,7 @@ const signUpRoute = require("./routes/sign_up.js");
 const logInRoute = require("./routes/log_in.js");
 const postsRoute = require("./routes/posts.js");
 
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 app.use(require("cors")());
 app.use("/users", signUpRoute);
