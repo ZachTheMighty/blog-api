@@ -6,6 +6,7 @@ const postsRoute = require("./routes/posts.js");
 
 app.use(express.urlencoded({ extended: false }));
 
+app.use(require("cors")());
 app.use("/users", signUpRoute);
 app.use("/tokens", logInRoute);
 app.use("/posts", postsRoute);
