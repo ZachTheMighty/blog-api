@@ -42,10 +42,13 @@ const login = [
       where: { email: req.body.email },
     });
 
-    if (!user) return res.status(401).json({ error: "Incorrect email" });
+    if (!user)
+      return res.status(401).json({ error: "Incorrect email", path: "email" });
 
     if (!(await bcrypt.compare(matchedData(req).password, user.password)))
-      return res.status(401).json({ error: "Incorrect password" });
+      return res
+        .status(401)
+        .json({ error: "Incorrect password", path: "password" });
 
     jwt.sign(
       { user },

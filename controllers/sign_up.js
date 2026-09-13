@@ -79,9 +79,9 @@ const createUser = [
       res.json({ message: "User created successfully" });
     } catch (error) {
       if (error.code === "P2002")
-        return res
-          .status(409)
-          .json({ error: "An account with this email already exists." });
+        return res.status(409).json({
+          error: "An account with this email already exists.",
+        });
       res.status(400).json(error);
     }
   },
