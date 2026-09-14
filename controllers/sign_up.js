@@ -1,7 +1,7 @@
 const prisma = require("../lib/prisma.ts");
 const { matchedData } = require("express-validator");
 const bcrypt = require("bcryptjs");
-const validateUser = require("../middlewares/validate_user.js;");
+const validateUser = require("../middlewares/validate_sign_up.js");
 
 const createUser = [
   validateUser,

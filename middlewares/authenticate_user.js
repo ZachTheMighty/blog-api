@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const verifyToken = require("./middlewares/verify_token.js");
+const verifyToken = require("./verify_token.js");
 
 const authenticateUser = [
   verifyToken,
