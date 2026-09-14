@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const signUpRoute = require("./routes/sign_up.js");
 const logInRoute = require("./routes/log_in.js");
+const protectedRoute = require("./routes/protected.js");
 const postsRoute = require("./routes/posts.js");
 
 app.use(express.json());
@@ -9,6 +10,7 @@ app.use(express.json());
 app.use(require("cors")());
 app.use("/users", signUpRoute);
 app.use("/tokens", logInRoute);
+app.use("/tokens", protectedRoute);
 app.use("/posts", postsRoute);
 app.get("/", (req, res) =>
   res.json({

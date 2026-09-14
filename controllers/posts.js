@@ -1,43 +1,20 @@
 const prisma = require("../lib/prisma.ts");
-const { body, validationResult, matchedData } = require("express-validator");
-const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const verifyToken = require("../middlewares/verify_token.js");
-
-const validatePost = [
-  body("title")
-    .trim()
-    .notEmpty()
-    .withMessage("You have to provide a title.")
-    .isLength({ min: 1, max: 50 })
-    .withMessage("Title must be between 10 and 50 characters."),
-  body("body")
-    .trim()
-    .notEmpty()
-    .withMessage("You have to provide body")
-    .isLength({ min: 3, max: 3000 }),
-];
+const authenticateUser = require("../middlewares/authenticate_user.js");
+const validatePost = require("../middlewares/validate_post.js");
 
 const createPost = [
-  verifyToken,
+  authenticateUser,
   validatePost,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty())
-      return res.status(422).json({ error: errors.array() });
-
-    jwt.verify(req.token, process.env.SECRET, async (error, payload) => {
-      if (error) return res.status(403).json({ error });
-
-      await prisma.post.create({
-        data: {
-          authorId: payload.user.id,
-          title: req.body.title,
-          body: req.body.body,
-        },
-      });
-      res.json({ message: "successfully created post" });
+    await prisma.post.create({
+      data: {
+        authorId: req.payload.user.id,
+        title: req.body.title,
+        body: req.body.body,
+      },
     });
+    res.json({ message: "successfully created post" });
   },
 ];
 
