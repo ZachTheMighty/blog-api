@@ -2,6 +2,7 @@ const prisma = require("../lib/prisma.ts");
 require("dotenv").config();
 const authenticateUser = require("../middlewares/authenticate_user.js");
 const validatePost = require("../middlewares/validate_post.js");
+const checkPostExists = require("../middlewares/check_post_exists.js");
 
 const createPost = [
   authenticateUser,
@@ -33,32 +34,41 @@ const getAllPosts = async (req, res) => {
   res.json(result);
 };
 
-const getPostById = async (req, res) => {
-  const post = await prisma.post.findUnique({
-    where: { id: +req.params.id },
-  });
-  if (!post) return res.status(404).json({ error: "Post doesn't exist" });
-  const result = {};
-  result[0] = post;
-  res.json(result);
-};
+const getPostById = [
+  checkPostExists,
+  async (req, res) => {
+    const post = await prisma.post.findUnique({
+      where: { id: +req.params.id },
+    });
+    if (!post) return res.status(404).json({ error: "Post doesn't exist" });
+    const result = {};
+    result[0] = post;
+    res.json(result);
+  },
+];
 
-const incrementViews = async (req, res) => {
-  const updatedPost = await prisma.post.update({
-    where: { id: +req.params.id },
-    data: { views: { increment: 1 } },
-  });
-  res.json({ views: updatedPost.views });
-};
+const incrementViews = [
+  checkPostExists,
+  async (req, res) => {
+    const updatedPost = await prisma.post.update({
+      where: { id: +req.params.id },
+      data: { views: { increment: 1 } },
+    });
+    res.json({ views: updatedPost.views });
+  },
+];
 
-const togglePublished = async (req, res) => {
-  const updatedPost = await prisma.post.update({
-    where: { id: +req.params.id },
-    data: { published: !req.body.published },
-  });
+const togglePublished = [
+  checkPostExists,
+  async (req, res) => {
+    const updatedPost = await prisma.post.update({
+      where: { id: +req.params.id },
+      data: { published: !req.body.published },
+    });
 
-  res.json({ published: updatedPost.published });
-};
+    res.json({ published: updatedPost.published });
+  },
+];
 
 module.exports = {
   createPost,
