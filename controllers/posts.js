@@ -21,7 +21,13 @@ const createPost = [
 const getAllPosts = async (req, res) => {
   const posts = await prisma.post.findMany();
   const result = {};
-  for (let i = 0; i < posts.length; i++) result[i] = posts[i];
+  for (let i = 0; i < posts.length; i++) {
+    const comments = await prisma.comment.findMany({
+      where: { postId: posts[i].id },
+    });
+    result[i] = posts[i];
+    result[i].comments = comments;
+  }
   res.json(result);
 };
 
