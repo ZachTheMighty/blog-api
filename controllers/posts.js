@@ -44,11 +44,11 @@ const getPostById = async (req, res) => {
 };
 
 const incrementViews = async (req, res) => {
-  const updatedUser = await prisma.post.update({
+  const updatedPost = await prisma.post.update({
     where: { id: +req.params.id },
     data: { views: { increment: 1 } },
   });
-  res.json({ views: updatedUser.views });
+  res.json({ views: updatedPost.views });
 };
 
 const togglePublished = async (req, res) => {
