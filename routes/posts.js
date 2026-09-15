@@ -6,6 +6,7 @@ route.post("/", postsController.createPost);
 route.get("/", postsController.getAllPosts);
 route.get("/:id", postsController.getPostById);
 route.post("/:id/views", postsController.incrementViews);
+route.post("/:id/published", postsController.togglePublished);
 
 route.post("/:id/comments", commentsController.createComment);
 route.get("/:id/comments", commentsController.getAllComments);

@@ -51,9 +51,19 @@ const incrementViews = async (req, res) => {
   res.json({ views: updatedUser.views });
 };
 
+const togglePublished = async (req, res) => {
+  const updatedPost = await prisma.post.update({
+    where: { id: +req.params.id },
+    data: { published: !req.body.published },
+  });
+
+  res.json({ published: updatedPost.published });
+};
+
 module.exports = {
   createPost,
   getAllPosts,
   getPostById,
   incrementViews,
+  togglePublished,
 };
