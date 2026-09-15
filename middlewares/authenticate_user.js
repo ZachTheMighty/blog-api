@@ -8,7 +8,8 @@ const authenticateUser = [
       if (error) return res.status(403).json({ error, isAuth: false });
 
       req.payload = payload;
-      res.json({ payload, isAuth: true });
+      if (req.baseUrl === "/tokens" && req.method === "GET")
+        return res.json({ payload, isAuth: true });
       next();
     });
   },
