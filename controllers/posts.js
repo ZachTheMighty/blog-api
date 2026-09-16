@@ -40,6 +40,10 @@ const getPostById = [
     const post = await prisma.post.findUnique({
       where: { id: +req.params.id },
     });
+    const comments = await prisma.comment.findMany({
+      where: { postId: post.id },
+    });
+    post.comments = comments;
     res.json(post);
   },
 ];
