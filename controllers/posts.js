@@ -78,10 +78,26 @@ const togglePublished = [
   },
 ];
 
+const deletePostById = [
+  checkPostExists,
+  async (req, res) => {
+    const deleteComments = prisma.comment.deleteMany({
+      where: { postId: +req.params.id },
+    });
+
+    const deletePost = prisma.post.delete({
+      where: { id: +req.params.id },
+    });
+    await prisma.$transaction([deleteComments, deletePost]);
+    res.json({ message: "Post delete successfully!" });
+  },
+];
+
 module.exports = {
   createPost,
   getAllPosts,
   getPostById,
   incrementViews,
   togglePublished,
+  deletePostById,
 };

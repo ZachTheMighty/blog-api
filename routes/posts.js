@@ -5,6 +5,7 @@ const commentsController = require("../controllers/comments.js");
 route.post("/", postsController.createPost);
 route.get("/", postsController.getAllPosts);
 route.get("/:id", postsController.getPostById);
+route.delete("/:id", postsController.deletePostById);
 route.post("/:id/views", postsController.incrementViews);
 route.post("/:id/published", postsController.togglePublished);
 

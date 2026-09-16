@@ -4,5 +4,6 @@ module.exports = async (req, res, next) => {
     where: { id: +req.params.id },
   });
   if (!post) return res.status(404).json({ error: "Post doesn't exist" });
+  req.post = post;
   next();
 };
