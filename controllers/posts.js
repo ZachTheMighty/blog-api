@@ -40,9 +40,7 @@ const getPostById = [
     const post = await prisma.post.findUnique({
       where: { id: +req.params.id },
     });
-    const result = {};
-    result[0] = post;
-    res.json(result);
+    res.json(post);
   },
 ];
 
