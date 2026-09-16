@@ -12,6 +12,7 @@ module.exports = [
     .trim()
     .notEmpty()
     .withMessage("You have to provide body")
-    .isLength({ min: 3, max: 3000 }),
+    .isLength({ min: 3, max: 3000 })
+    .withMessage("Body must be between 3 and 3000 characters"),
   validationResult,
 ];
