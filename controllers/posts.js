@@ -93,6 +93,21 @@ const deletePostById = [
   },
 ];
 
+const editPostById = [
+  authenticateUser,
+  validatePost,
+  async (req, res) => {
+    await prisma.post.update({
+      where: { id: +req.params.id },
+      data: {
+        title: req.body.title,
+        body: req.body.body,
+      },
+    });
+    res.json({ message: "successfully edited post" });
+  },
+];
+
 module.exports = {
   createPost,
   getAllPosts,
@@ -100,4 +115,5 @@ module.exports = {
   incrementViews,
   togglePublished,
   deletePostById,
+  editPostById,
 };
