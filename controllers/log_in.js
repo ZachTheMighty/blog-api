@@ -12,7 +12,7 @@ const login = [
       where: { email: req.body.email },
     });
 
-    if (!user)
+    if (!user || user.isAuthor !== req.body.isAuthor)
       return res.status(401).json({ error: "Incorrect email", path: "email" });
 
     if (!(await bcrypt.compare(matchedData(req).password, user.password)))
