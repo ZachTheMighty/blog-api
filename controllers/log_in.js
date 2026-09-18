@@ -23,7 +23,7 @@ const login = [
     jwt.sign(
       { user },
       process.env.SECRET,
-      { expiresIn: "30s" },
+      { expiresIn: "15m" },
       (error, token) => res.json({ token }),
     );
   },
