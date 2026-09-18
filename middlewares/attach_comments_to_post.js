@@ -11,5 +11,4 @@ module.exports = async function attachComments(post) {
     comments[i].user = user;
   }
   post.comments = comments;
-  return post;
 };
