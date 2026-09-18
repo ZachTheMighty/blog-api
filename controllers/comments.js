@@ -9,7 +9,7 @@ const createComment = [
   validateComment,
   async (req, res) => {
     try {
-      await prisma.comment.create({
+      const comment = await prisma.comment.create({
         data: {
           userId: req.payload.user.id,
           postId: +req.params.id,
@@ -17,7 +17,12 @@ const createComment = [
         },
       });
 
-      res.json({ message: "Comment successfully created." });
+      const user = await prisma.user.findUnique({
+        where: { id: comment.userId },
+      });
+      comment.user = user;
+
+      res.json(comment);
     } catch (error) {
       res.status(404).json({ error: "Can't comment under non existent post." });
     }
