@@ -11,7 +11,7 @@ const createComment = [
     try {
       await prisma.comment.create({
         data: {
-          userId: payload.user.id,
+          userId: req.payload.user.id,
           postId: +req.params.id,
           body: req.body.comment,
         },
@@ -34,9 +34,7 @@ const getAllComments = [
     if (comments.length === 0)
       return res.json({ message: "This post doesn't have any comments" });
 
-    const result = {};
-    for (let i = 0; i < comments.length; i++) result[i] = comments[i];
-    res.json(result);
+    res.json(comments);
   },
 ];
 
@@ -54,8 +52,22 @@ const getCommentById = [
   },
 ];
 
+const deleteCommentById = [
+  checkPostExists,
+  async (req, res) => {
+    const comment = await prisma.comment.delete({
+      where: {
+        id: +req.params.commentId,
+        postId: +req.params.id,
+      },
+    });
+    res.json(comment);
+  },
+];
+
 module.exports = {
   createComment,
   getAllComments,
   getCommentById,
+  deleteCommentById,
 };

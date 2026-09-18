@@ -13,5 +13,6 @@ route.post("/:id/published", postsController.togglePublished);
 route.post("/:id/comments", commentsController.createComment);
 route.get("/:id/comments", commentsController.getAllComments);
 route.get("/:id/comments/:commentId", commentsController.getCommentById);
+route.delete("/:id/comments/:commentId", commentsController.deleteCommentById);
 
 module.exports = route;

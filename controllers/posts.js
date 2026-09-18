@@ -25,10 +25,9 @@ const getAllPosts = async (req, res) => {
   const posts = await prisma.post.findMany({
     orderBy: { id: "desc" },
   });
-  const result = {};
-  for (let i = 0; i < posts.length; i++)
-    result[i] = await attachComments(posts[i]);
-  res.json(result);
+
+  for (let i = 0; i < posts.length; i++) await attachComments(posts[i]);
+  res.json(posts);
 };
 
 const getPostById = [
